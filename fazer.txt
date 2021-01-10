@@ -1,0 +1,5 @@
+
+
+[X] - Rotas e Views do sistema de login do USER 
+[] - Criar o relacionamento entre user e pokemons (1:N)
+
