@@ -27,7 +27,7 @@ class BattleService
 
     private function calcularDefesa(int $pokemon_hp_stat, int $pokemon_def_stat)
     {
-        return $pokemon_hp_stat + ($pokemon_def_stat * ($pokemon_def_stat / 100));
+        return $pokemon_hp_stat + ($pokemon_def_stat / 100);
     }
 
     private function calcularDanoBattle(array $attack_player, array $attack_enemy): bool
@@ -35,12 +35,11 @@ class BattleService
         $pokemon_enemy_vitality = $this->calcularDefesa($attack_enemy[0]->base_stat, $attack_enemy[2]->base_stat);
         $pokemon_player_attack = $attack_player[1]->base_stat;
 
-        if ($pokemon_player_attack >= $pokemon_enemy_vitality) {
+        if ($pokemon_player_attack > $pokemon_enemy_vitality) {
             return true;
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
 }
