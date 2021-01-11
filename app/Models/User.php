@@ -17,6 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'pokeballs'
     ];
 
     protected $hidden = [
@@ -27,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'beginner' => 'bool',
         'email_verified_at' => 'datetime',
+        'pokeballs' => 'integer'
     ];
 
     public function pokemons()
