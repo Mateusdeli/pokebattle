@@ -5,6 +5,10 @@
    <div class="my-2 d-flex justify-content-between">
       <h5>{{ $player->name }}</h5>
       <h5>Level: {{ $player->level }}</h5>
+      <span>
+         <strong>{{ $player->pokeballs }}x</strong>
+         <img src="{{ asset('storage/pokeballs.png') }}" width="38" class="img-fluid ml-2" alt="pokeballs" /> 
+      </span>
    </div>
    <hr>
    @include('partials.error', (array) $errors)
@@ -12,7 +16,7 @@
       @if ($player->level <= 1)
          <h3>Escolha seu pokemon inicial:</h3>
          @foreach ($pokemons_basic as $basic)
-            <div class="card mt-3" id="begginerPokemon" style="width: 25rem;">
+            <div class="card mt-3" onclick="chooseBegginerPokemon('{{ $basic->getNome() }}')" style="width: 25rem;">
                <div class="row align-items-center">
                   <div class="col-6 d-flex justify-content-center">
                      <img src="{{$basic->getSpriteDefault()}}" width="150" class="img-fluid" alt="{{$basic->getNome()}}">
@@ -68,12 +72,6 @@
 
    <script>
 
-      let begginerPokemon = $('#begginerPokemon');
-
-      begginerPokemon.click(function() => {
-        console.log('Olá');
-      });
-
       function chooseBegginerPokemon(pokemon_name) {
 
          let dataForm = new FormData();
@@ -88,8 +86,10 @@
             contentType: false,
             processData: false,
             data: dataForm,
-            success: function (response) { },
-            error: (e) => {console.log(e)}
+            success: function (response) {
+              window.location.href = response;
+            },
+            error: (e) => {}
          });
       }
 
