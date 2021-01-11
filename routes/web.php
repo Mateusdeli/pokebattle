@@ -40,18 +40,18 @@ Route::prefix('/register')->group(function(){
         Route::get('verify', function () {
             return view('auth.verify-email');
         })->middleware('auth')->name('verification.notice');
-    
+
         Route::get('verify/{id}/{hash}', function (EmailVerificationRequest $request) {
             $request->fulfill();
             return redirect()->route('painel.index');
         })->middleware(['auth', 'signed'])->name('verification.verify');
-    
+
         Route::post('verification-notification', function (Request $request) {
             $request->user()->sendEmailVerificationNotification();
             return back()->with('message', 'Verification link sent!');
         })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
     });
-    
+
 });
 
 Route::middleware(['auth', 'verified'])->group(function() {
@@ -68,13 +68,18 @@ Route::middleware(['auth', 'verified'])->group(function() {
         });
 
         Route::prefix('battle')->group(function() {
+
             Route::name('battle.')->group(function() {
                 Route::get('/', 'BattleController@index')->name('index');
                 Route::post('/', 'BattleController@userPokemon')->name('user.pokemon');
+
+                Route::prefix('capturar')->group(function() {
+                    Route::post('/', 'BattleController@catchPokemon')->name('capturar');
+                });
+               
             });
         });
 
     });
 
 });
-
