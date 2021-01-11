@@ -5,9 +5,14 @@
         <h3 class="text-center">Battle</h3>
         <hr>
         @if (isset($resultado_battle))
-            <div>
-                <p>{{$resultado_battle}}</p>
-            </div>
+          <div class="text-center">
+              @if ($resultado_battle === true)
+                  <p id="message">Você venceu a batalha!</p>
+              @else
+                  <p>Você perdeu a batalha!</p>
+              @endif
+              <a class="btn btn-danger" href="{{ route('painel.index') }}">Voltar</a>
+          </div>
         @endif
         <div class="d-flex justify-content-center">
             <div class="row">
@@ -38,11 +43,46 @@
                     @endif
                 </div>
                 <div class="col-6">
-                    <div class="card mt-3" style="width: 25rem;">
+                     <div class="card mt-3" style="width: 25rem;">
                         @include('partials.pokemon-template', (array) $pokemon)
                      </div>
+                     @if ($resultado_battle === true && $player->pokeballs > 0)
+                       <div class="text-center my-3">
+                           <a class="btn btn-primary" id="capturar">Capturar</a>
+                       </div>
+                     @endif
                 </div>
             </div>
         </div>
     </div>
+    <script>
+
+        $('#capturar').click(() => {
+            let token = $("meta[name='csrf-token']").attr('content');
+            let url = window.location.href + '/capturar';
+            let pokemon_name = "{{ $pokemon->getNome() }}";
+            let formData = new FormData();
+            formData.append('pokemon_name', pokemon_name);
+            formData.append('_token', token);
+            $.ajax({
+                method: 'POST',
+                url: url,
+                processData: false,
+                contentType: false,
+                data: formData
+              })
+              .then(response => {
+                  let message = $('#message');
+                  message.addClass('alert alert-success');
+                  message.text(response.message);
+                  setTimeout(() => {
+                    window.location.href = "{{ route('painel.index') }}";
+                  }, 1000);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+        });
+
+    </script>
 @endsection

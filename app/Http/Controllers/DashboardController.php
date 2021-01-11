@@ -36,6 +36,6 @@ class DashboardController extends Controller
     public function beginnerPokemon(Request $request)
     {
        $this->escolherPokemonInicial->adicionarPokemonInicial($request->user()->id, $request->pokemon_name);
-       return redirect()->route('painel.index');
+       return $request->getUri();
     }
 }
