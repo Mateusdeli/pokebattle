@@ -76,12 +76,21 @@
                 data: formData
               })
               .then(response => {
-                  let message = $('#message');
-                  message.addClass('alert alert-success');
-                  message.text(response.message);
-                  setTimeout(() => {
-                    window.location.href = "{{ route('painel.index') }}";
-                  }, 1000);
+                let message = $('#message');
+
+                if (response.podeCapturarPokemon) {
+                    message.addClass('alert alert-success');
+                    message.text(response.message);
+                }
+                else {
+                    message.addClass('alert alert-danger');
+                    message.text(response.message);
+                }
+
+                setTimeout(() => {
+                window.location.href = "{{ route('painel.index') }}";
+                }, 1000);
+
               })
               .catch(error => {
                 console.log(error);

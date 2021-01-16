@@ -73,8 +73,12 @@ class BattleController extends Controller
       ]);
 
       $pokemon_name = $request->pokemon_name;
-      $this->capturarPokemon->capturar($pokemon_name);
-      return response(['message' => "Parabéns, você capturou o pokemon {$pokemon_name}", 'redirect' => $request->route('painel.index')]);
+      $podeCapturar = $this->capturarPokemon->capturar($pokemon_name);
+      return response([
+          'podeCapturarPokemon' => $podeCapturar,
+          'message' => $podeCapturar ? "Parabéns, você capturou o pokemon {$pokemon_name}" : "Desculpe, a Pokeball falhou!", 
+          'redirect' => $request->route('painel.index')
+        ]);
 
     }
 
