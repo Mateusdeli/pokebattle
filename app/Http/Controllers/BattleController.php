@@ -35,11 +35,15 @@ class BattleController extends Controller
         $pokemon_enemy = $this->pokemonService->gerarPokemonAdversario($find_pokemon_range_min, $find_pokemon_range_max);
         Session::put('pokemon_enemy', $pokemon_enemy);
 
+        $resultadoBattle = $this->battleService->battle();
+        $playerPodeCapturarPokemon = $this->capturarPokemon->checarPlayerPodeCapturar($pokemon_enemy);
+
         return view('dashboard.battle.index', [
             'player' => $request->user(),
             'pokemon' => $pokemon_enemy,
             'player_pokemon' => $user_pokemon,
-            'resultado_battle' => $this->battleService->battle() ? true : false
+            'podeCapturar' => $playerPodeCapturarPokemon,
+            'resultado_battle' => $resultadoBattle
         ]);
 
     }

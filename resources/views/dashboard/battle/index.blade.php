@@ -48,7 +48,11 @@
                      </div>
                      @if ($resultado_battle === true && $player->pokeballs > 0)
                        <div class="text-center my-3">
-                           <a class="btn btn-primary" id="capturar">Capturar</a>
+                           @if ($podeCapturar)
+                            <button class="btn btn-primary" id="capturar">Capturar</button>
+                           @else
+                            <button disabled class="btn btn-dark">Pokemon Já Capturado</button>
+                           @endif
                        </div>
                      @endif
                 </div>
